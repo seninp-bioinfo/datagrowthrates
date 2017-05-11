@@ -119,7 +119,8 @@ for(i in 1:length(yearSeq)) {
   }
   dd <- data.frame(date = date, samples = dat_summary$samples, 
                    reads = dat_summary$reads, bases = dat_summary$bases)
-  print(paste(" ... summary: ", dd))
+  print(paste(" ... summary for ", date, ": ", dd$samples, " runs, ", dd$reads, " reads, "
+              dd$bases, " bases"))
   res <- rbind(res, dd)
   write.table(res, paste("rates/total_sra_rates_", year, ".tsv", sep = ""), sep = "\t", col.names = T, row.names = F)
   startTime = currentTime
