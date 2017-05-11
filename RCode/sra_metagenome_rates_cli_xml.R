@@ -46,20 +46,19 @@ ex_data <- function(x) {
   data.frame(runid = id, reads = reads, bases = bases)
 }
 
-#tax_tree(408169) AND 
 parse_date <- function(date, offset, limit) {
   url = paste("http://www.ebi.ac.uk/ena/data/warehouse/search?query=",
-              "first_public=", date,
+              "tax_tree(408169) AND first_public=", date,
               "&fields=library_strategy,library_selection,library_source",
               "&result=read_run&display=xml&download=xml&offset=", offset, 
               "&limit=", limit, sep = "")
   
   res <- xmlParse(URLencode(url))
-
+  
   xml_data <- xmlToList(res)
   
   if (!(is.null(xml_data$text)) && str_detect(xml_data[[1]],
-      "display type is either not supported or entry is not found")) {
+                                              "display type is either not supported or entry is not found")) {
     data.frame(date = date, samples = 0, reads = 0, bases = 0)
   } else {
     valid_elements <- which(laply(xml_data, valid_el))
@@ -74,7 +73,7 @@ parse_date <- function(date, offset, limit) {
 
 date_summary <- function(date) {
   url = paste("http://www.ebi.ac.uk/ena/data/warehouse/search?query=",
-              "first_public=", date,
+              "tax_tree(408169) AND first_public=", date,
               "&fields=library_strategy,library_selection,library_source",
               "&result=read_run&resultcount", sep = "")
   x <- suppressWarnings(readLines(URLencode(url)))
@@ -100,8 +99,8 @@ for(i in 1:length(yearSeq)) {
   currentTime = Sys.time()
   date <- yearSeq[i]
   print(paste0("processing ", date, ", prev day took ",
-              as.numeric(difftime(currentTime, startTime, units = "min")),
-              " minutes..."))
+               as.numeric(difftime(currentTime, startTime, units = "min")),
+               " minutes..."))
   num_results <- date_summary(date)
   print(paste0(" ... total number of results: ", num_results))
   
@@ -122,6 +121,6 @@ for(i in 1:length(yearSeq)) {
   print(paste(" ... summary for ", date, ": ", 
               dd$samples, " runs, ", dd$reads, " reads, ",  dd$bases, " bases"))
   res <- rbind(res, dd)
-  write.table(res, paste("rates/total_sra_rates_", year, ".tsv", sep = ""), sep = "\t", col.names = T, row.names = F)
+  write.table(res, paste("rates/metagenome_sra_rates_", year, ".tsv", sep = ""), sep = "\t", col.names = T, row.names = F)
   startTime = currentTime
 }
