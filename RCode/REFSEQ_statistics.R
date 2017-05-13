@@ -84,7 +84,7 @@ names(dm) <- c("Date", "Dataset", "BasePairs")
 library(ggplot2)
 library(scales)
 p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs / 1000000, color = Dataset)) +
-  geom_line(size = 0.8) + theme_light() +
+  geom_line(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_continuous("Millions basepair", labels = comma) +
   ggtitle("REFSeq data growth rate, cumulative")
@@ -100,6 +100,11 @@ Cairo::CairoPDF(file = "REFSeq_growth_sequences", width = 9,
 print(p1)
 dev.off()
 #
+Cairo::CairoPNG(file = "REFSeq_growth_sequences.png", width = 800,
+                height = 600,
+                bg = "white", pointsize = 8)
+print(p1)
+dev.off()
 #
 #
 dm <- dd[,c(1,3,5,7)]
@@ -110,7 +115,7 @@ names(dm) <- c("Date", "Dataset", "Accessions")
 library(ggplot2)
 library(scales)
 p1 <- ggplot(data = dm, aes(x = Date, y = Accessions, color = Dataset)) +
-  geom_line(size = 0.8) + theme_light() +
+  geom_line(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_continuous("Number of accessions", labels = comma) +
   ggtitle("REFSeq data growth rate, cumulative")
@@ -123,5 +128,11 @@ Cairo::CairoPDF(file = "REFSeq_growth_accessions", width = 9,
                 onefile = TRUE, family = "Helvetica",
                 title = "R Graphics Output", version = "1.1",
                 paper = "special", bg = "white", pointsize = 10)
+print(p1)
+dev.off()
+#
+Cairo::CairoPNG(file = "REFSeq_growth_accessions.png", width = 800,
+                height = 600,
+                bg = "white", pointsize = 8)
 print(p1)
 dev.off()

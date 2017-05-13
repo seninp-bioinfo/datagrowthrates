@@ -73,7 +73,7 @@ range(dm$Metagenomic)
 library(ggplot2)
 library(scales)
 p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs, color = Dataset)) +
-  geom_line(size = 0.8) + theme_light() +
+  geom_line(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_continuous("Millions basepair", labels = comma) +
   ggtitle("SRA data growth rate, cumulative")
@@ -86,5 +86,11 @@ Cairo::CairoPDF(file = "SRA_growth_sequences", width = 9,
                 onefile = TRUE, family = "Helvetica",
                 title = "R Graphics Output", version = "1.1",
                 paper = "special", bg = "white", pointsize = 10)
+print(p1)
+dev.off()
+#
+Cairo::CairoPNG(file = "SRA_growth_sequences.png", width = 800,
+                height = 600,
+                bg = "white", pointsize = 8)
 print(p1)
 dev.off()

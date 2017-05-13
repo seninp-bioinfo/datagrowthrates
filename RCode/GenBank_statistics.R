@@ -19,7 +19,7 @@ names(dm) <- c("Date", "Dataset", "BasePairs")
 library(ggplot2)
 library(scales)
 p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs / 1000000, color = Dataset)) +
-  geom_line(size = 0.8) + theme_light() +
+  geom_line(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_continuous("Millions basepair", labels = comma) +
   ggtitle("GenBank data growth rate, cumulative")
@@ -34,3 +34,10 @@ Cairo::CairoPDF(file = "GB_WGS_growth", width = 9,
                 paper = "special", bg = "white", pointsize = 10)
 print(p1)
 dev.off()
+#
+Cairo::CairoPNG(file = "GB_WGS_growth.png", width = 800,
+                height = 600,
+                bg = "white", pointsize = 8)
+print(p1)
+dev.off()
+
