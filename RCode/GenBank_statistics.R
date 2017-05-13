@@ -22,7 +22,7 @@ p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs / 1000000, color = Dataset))
   geom_line(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_continuous("Millions basepair", labels = comma) +
-  ggtitle("GenBank data growth rate, cumulative")
+  ggtitle("GenBank data growth rate, basepairs, cumulative")
 
 p1
 #

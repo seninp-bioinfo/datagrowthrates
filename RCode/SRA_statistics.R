@@ -83,7 +83,7 @@ p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs, color = Dataset)) +
   geom_line(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_continuous("Millions basepair", labels = comma) +
-  ggtitle("SRA data growth rate, cumulative")
+  ggtitle("SRA data growth rate, basepairs, cumulative")
 
 p1
 #
@@ -96,7 +96,7 @@ Cairo::CairoPDF(file = "SRA_growth_sequences", width = 9,
 print(p1)
 dev.off()
 #
-Cairo::CairoPNG(file = "SRA_growth_sequences.png", width = 800,
+Cairo::CairoPNG(file = "SRA_growth_sequences.png", width = 900,
                 height = 600,
                 bg = "white", pointsize = 8)
 print(p1)
