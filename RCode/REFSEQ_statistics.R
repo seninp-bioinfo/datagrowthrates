@@ -100,7 +100,7 @@ Cairo::CairoPDF(file = "REFSeq_growth_sequences", width = 9,
 print(p1)
 dev.off()
 #
-Cairo::CairoPNG(file = "REFSeq_growth_sequences.png", width = 800,
+Cairo::CairoPNG(file = "REFSeq_growth_sequences.png", width = 900,
                 height = 600,
                 bg = "white", pointsize = 8)
 print(p1)
@@ -131,7 +131,7 @@ Cairo::CairoPDF(file = "REFSeq_growth_accessions", width = 9,
 print(p1)
 dev.off()
 #
-Cairo::CairoPNG(file = "REFSeq_growth_accessions.png", width = 800,
+Cairo::CairoPNG(file = "REFSeq_growth_accessions.png", width = 900,
                 height = 600,
                 bg = "white", pointsize = 8)
 print(p1)

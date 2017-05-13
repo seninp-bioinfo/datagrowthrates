@@ -35,7 +35,7 @@ Cairo::CairoPDF(file = "GB_WGS_growth", width = 9,
 print(p1)
 dev.off()
 #
-Cairo::CairoPNG(file = "GB_WGS_growth.png", width = 800,
+Cairo::CairoPNG(file = "GB_WGS_growth.png", width = 900,
                 height = 600,
                 bg = "white", pointsize = 8)
 print(p1)
