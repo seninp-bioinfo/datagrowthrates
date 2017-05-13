@@ -28,7 +28,14 @@ for( stat in total_stats){
 }
 dd <- dd[-1,]
 dd <- dd[1:(which(dd$date == Sys.Date())),]
-str(d_tmp)
+str(dd)
+#
+#
+summary <- as.data.frame(table(substr(mg$first_public, 1,7)))
+amplicon <- as.data.frame(table(substr(mg[mg$amplicon==TRUE,]$first_public, 1,7)))
+summary <- merge(summary, amplicon, by = c("Var1"))
+#
+#
 #
 meta_stats <- grepl("meta", flist)
 meta_stats <- flist[which(meta_stats)]
