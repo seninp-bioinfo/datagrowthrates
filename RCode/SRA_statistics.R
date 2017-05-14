@@ -101,3 +101,31 @@ Cairo::CairoPNG(file = "SRA_growth_sequences.png", width = 900,
                 bg = "white", pointsize = 8)
 print(p1)
 dev.off()
+#
+#
+sra$SRA <- sra$SRA / 1000000
+sra$SRA <- cumsum(na.omit(sra$SRA))
+sra$SRA <- as.numric(sra$SRA)
+str(sra)
+#
+genbank$GenBank <- cumsum(genbank$GenBank/1000000)
+genbank$WGS <- cumsum(genbank$WGS/1000000)
+#
+dd <- merge(sra, genbank, by=c("Date"), all=T)
+str(dd)
+#
+refseq$REFseq_genomic <- cumsum(refseq$REFseq_genomic/1000000)
+refseq$REFseq_RNA <- cumsum(refseq$REFseq_RNA/1000000)
+refseq$REFseq_Protein <- cumsum(refseq$REFseq_Protein/1000000)
+dd <-merge(dd,refseq,by=c("Date"))
+str(dd)
+#
+dm <-melt(dd, id.vars=c("Date"))
+#
+names(dm) <- c("Date", "Dataset", "BasePairs")
+p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs, color = Dataset)) +
+  geom_line(size = 0.8) + theme_light(base_size = 17) +
+  scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
+  scale_y_log10("Millions basepair", labels = comma) +
+  ggtitle("SRA data growth rate, basepairs, cumulative")
+p1
