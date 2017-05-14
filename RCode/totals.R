@@ -1,5 +1,7 @@
 library(RCurl)
 library(stringr)
+library(ggplot2)
+library(scales)
 #
 release_archive_url <- "ftp://ftp.ncbi.nlm.nih.gov/refseq/release/release-statistics/archive/"
 #
