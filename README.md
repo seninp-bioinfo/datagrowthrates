@@ -10,3 +10,7 @@
 
 ## SRA data growth rate
 ![SRA data growth, basepairs](https://github.com/seninp-bioinfo/datagrowthrates/raw/master/RCode/SRA_growth_sequences.png)
+
+
+## and all together
+![All data growth, basepairs](https://github.com/seninp-bioinfo/datagrowthrates/raw/master/RCode/ALL_growth_basepairs.png)
