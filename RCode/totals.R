@@ -162,7 +162,7 @@ names(dm) <- c("Date", "Dataset", "BasePairs")
 p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs, color = Dataset, shape = Dataset)) +
   geom_point(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "3 year", date_labels =  "%Y") +
-  scale_y_log10("Millions basepair", labels = comma) +
+  scale_y_log10("Millions basepair, log10 scale", labels = comma) +
   ggtitle("Datasets growth rate, basepairs, cumulative")
 p1
 #
