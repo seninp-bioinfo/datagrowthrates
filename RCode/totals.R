@@ -142,17 +142,17 @@ sra$SRA <- cumsum(na.omit(sra$SRA))
 sra$SRA <- as.numeric(sra$SRA)
 str(sra)
 #
-genbank$WGS[which(is.na(genbank$WGS))] <- 0
-genbank$GenBank <- cumsum(genbank$GenBank/1000000)
-genbank$WGS <- cumsum(na.omit(genbank$WGS/1000000))
+#genbank$WGS[which(is.na(genbank$WGS))] <- 0
+genbank$GenBank <- genbank$GenBank/1000000
+genbank$WGS <- genbank$WGS/1000000
 #
 dd <- merge(sra, genbank, by=c("Date"), all=T)
 str(dd)
 #
 names(refseq)[2:4] <- paste0("REFseq_", names(refseq)[2:4])
-refseq$REFseq_Genomic <- cumsum(refseq$REFseq_Genomic/1000000)
-refseq$REFseq_RNA <- cumsum(refseq$REFseq_RNA/1000000)
-refseq$REFseq_Protein <- cumsum(refseq$REFseq_Protein/1000000)
+refseq$REFseq_Genomic <- refseq$REFseq_Genomic/1000000
+refseq$REFseq_RNA <- refseq$REFseq_RNA/1000000
+refseq$REFseq_Protein <- refseq$REFseq_Protein/1000000
 dd <-merge(dd,refseq,by=c("Date"), all = T)
 str(dd)
 #
