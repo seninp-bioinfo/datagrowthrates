@@ -12,6 +12,34 @@ releases <- grepl("RefSeq-release\\d+\\.\\d+.stats.txt$", filenames)
 releases <- filenames[which(releases)]
 #
 #
+readUrl <- function(url) {
+  out <- tryCatch(
+    {
+      con <- url(url)
+      txt <- readLines(con)
+      txt 
+    },
+    error=function(cond) {
+      message(paste("URL does not seem to exist:", url))
+      message("Here's the original error message:")
+      message(cond)
+      return(NA)
+    },
+    warning=function(cond) {
+      message(paste("URL caused a warning:", url))
+      message("Here's the original warning message:")
+      message(cond)
+      # Choose a return value in case of warning
+      return(NA)
+    },
+    finally={
+      suppressWarnings(close(con))
+      message(paste("Processed URL:", url))
+    }
+  )    
+  return(out)
+}
+#
 release = releases[1]
 #
 dd <- data.frame(date = as.Date("01-01-01"), id = NA, genomic_accessions = NA, genomic_basepairs = NA,
@@ -28,9 +56,17 @@ for( release in releases){
 
   print(paste0("Parsing release ", d_tmp$id, ", dated ", d_tmp$date))
   
-  con <- url(paste(release_archive_url, release, sep=""))
-  txt <- readLines(con)
-  close(con)
+  # try to read the data from url
+  num_retries <- 4
+  retry_count <- 1
+  txt <- readUrl(paste0(release_archive_url, release))
+  while(is.na(txt) && (retry_count < num_retries)) {
+    txt <- readUrl(paste0(release_archive_url, release))
+    retry_count = retry_count + 1
+  }
+  if (is.na(txt)) {
+    break
+  }
 
   parsing = FALSE
   for( line in txt ){
@@ -87,7 +123,7 @@ p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs / 1000000, color = Database)
   geom_line(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_continuous("Millions basepair", labels = comma) +
-  ggtitle("REFSeq data growth rate, basepairs, cumulative") +
+  ggtitle("RefSeq data growth rate, basepairs, cumulative") +
   theme(text=element_text(family="Comic Sans MS"), legend.key.size = unit(1, "cm"),
     axis.text.x = element_text(angle = 50, hjust = 1.1, vjust = 1.1)) +
   guides(colour = guide_legend(override.aes = list(size = 2)))
@@ -95,7 +131,7 @@ p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs / 1000000, color = Database)
 p1
 #
 library(Cairo)
-Cairo::CairoPDF(file = "REFSeq_growth_sequences", width = 9,
+Cairo::CairoPDF(file = "RefSeq_growth_sequences", width = 9,
                 height = 6,
                 onefile = TRUE, family = "Helvetica",
                 title = "R Graphics Output", version = "1.1",
@@ -103,7 +139,7 @@ Cairo::CairoPDF(file = "REFSeq_growth_sequences", width = 9,
 print(p1)
 dev.off()
 #
-Cairo::CairoPNG(file = "REFSeq_growth_sequences.png", width = 900,
+Cairo::CairoPNG(file = "RefSeq_growth_sequences.png", width = 900,
                 height = 600,
                 bg = "white", pointsize = 8)
 print(p1)
@@ -121,7 +157,7 @@ p1 <- ggplot(data = dm, aes(x = Date, y = Accessions, color = Database)) +
   geom_line(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_continuous("Number of accessions", labels = comma) +
-  ggtitle("REFSeq data growth rate, accessions, cumulative") +
+  ggtitle("RefSeq data growth rate, accessions, cumulative") +
   theme(text=element_text(family="Comic Sans MS"), legend.key.size = unit(1, "cm"),
         axis.text.x = element_text(angle = 50, hjust = 1.1, vjust = 1.1)) +
   guides(colour = guide_legend(override.aes = list(size = 2)))
@@ -129,7 +165,7 @@ p1 <- ggplot(data = dm, aes(x = Date, y = Accessions, color = Database)) +
 p1
 #
 library(Cairo)
-Cairo::CairoPDF(file = "REFSeq_growth_accessions", width = 9,
+Cairo::CairoPDF(file = "RefSeq_growth_accessions", width = 9,
                 height = 6,
                 onefile = TRUE, family = "Helvetica",
                 title = "R Graphics Output", version = "1.1",
@@ -137,7 +173,7 @@ Cairo::CairoPDF(file = "REFSeq_growth_accessions", width = 9,
 print(p1)
 dev.off()
 #
-Cairo::CairoPNG(file = "REFSeq_growth_accessions.png", width = 900,
+Cairo::CairoPNG(file = "RefSeq_growth_accessions.png", width = 900,
                 height = 600,
                 bg = "white", pointsize = 8)
 print(p1)
