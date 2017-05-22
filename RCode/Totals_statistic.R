@@ -149,10 +149,10 @@ genbank$WGS <- genbank$WGS/1000000
 dd <- merge(sra, genbank, by=c("Date"), all=T)
 str(dd)
 #
-names(refseq)[2:4] <- paste0("REFseq_", names(refseq)[2:4])
-refseq$REFseq_Genomic <- refseq$REFseq_Genomic/1000000
-refseq$REFseq_RNA <- refseq$REFseq_RNA/1000000
-refseq$REFseq_Protein <- refseq$REFseq_Protein/1000000
+names(refseq)[2:4] <- paste0("RefSeq_", names(refseq)[2:4])
+refseq$RefSeq_Genomic <- refseq$RefSeq_Genomic/1000000
+refseq$RefSeq_RNA <- refseq$RefSeq_RNA/1000000
+refseq$RefSeq_Protein <- refseq$RefSeq_Protein/1000000
 dd <-merge(dd,refseq,by=c("Date"), all = T)
 str(dd)
 #
