@@ -199,7 +199,7 @@ names(dm) <- c("Date", "Database", "BasePairs")
 dm <- dm[complete.cases(dm), ]
 p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs, color = Database, shape = Database)) +
   geom_point(size = 2) + theme_light(base_size = 17) +
-  scale_x_date("Years", date_breaks = "3 year", date_labels =  "%Y") +
+  scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_log10("Millions basepair, log10 scale", labels = comma) +
   ggtitle("Datasets growth rate, Mbp, cumulative") +
   theme(text=element_text(family="Comic Sans MS"), legend.key.size = unit(1, "cm"),
