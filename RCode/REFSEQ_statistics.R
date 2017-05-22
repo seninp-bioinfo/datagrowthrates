@@ -79,15 +79,18 @@ library(reshape2)
 dm <- dd[,c(1,4,6,8)]
 names(dm) <- c("Date", "Genomic", "RNA", "Protein")
 dm <- melt(dm, id.vars = c("Date"))
-names(dm) <- c("Date", "Dataset", "BasePairs")
+names(dm) <- c("Date", "Database", "BasePairs")
 #
 library(ggplot2)
 library(scales)
-p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs / 1000000, color = Dataset)) +
+p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs / 1000000, color = Database)) +
   geom_line(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_continuous("Millions basepair", labels = comma) +
-  ggtitle("REFSeq data growth rate, basepairs, cumulative")
+  ggtitle("REFSeq data growth rate, basepairs, cumulative") +
+  theme(text=element_text(family="Comic Sans MS"), legend.key.size = unit(1, "cm"),
+    axis.text.x = element_text(angle = 50, hjust = 1.1, vjust = 1.1)) +
+  guides(colour = guide_legend(override.aes = list(size = 2)))
 
 p1
 #
@@ -110,15 +113,18 @@ dev.off()
 dm <- dd[,c(1,3,5,7)]
 names(dm) <- c("Date", "Genomic", "RNA", "Protein")
 dm <- melt(dm, id.vars = c("Date"))
-names(dm) <- c("Date", "Dataset", "Accessions")
+names(dm) <- c("Date", "Database", "Accessions")
 #
 library(ggplot2)
 library(scales)
-p1 <- ggplot(data = dm, aes(x = Date, y = Accessions, color = Dataset)) +
+p1 <- ggplot(data = dm, aes(x = Date, y = Accessions, color = Database)) +
   geom_line(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_continuous("Number of accessions", labels = comma) +
-  ggtitle("REFSeq data growth rate, accessions, cumulative")
+  ggtitle("REFSeq data growth rate, accessions, cumulative") +
+  theme(text=element_text(family="Comic Sans MS"), legend.key.size = unit(1, "cm"),
+        axis.text.x = element_text(angle = 50, hjust = 1.1, vjust = 1.1)) +
+  guides(colour = guide_legend(override.aes = list(size = 2)))
 
 p1
 #
@@ -137,3 +143,4 @@ Cairo::CairoPNG(file = "REFSeq_growth_accessions.png", width = 900,
 print(p1)
 dev.off()
 #
+
