@@ -167,7 +167,7 @@ p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs, color = Database, shape = D
   ggtitle("Datasets growth rate, basepairs, cumulative") +
   theme(text=element_text(family="Comic Sans MS"), legend.key.size = unit(1, "cm"),
         axis.text.x = element_text(angle = 50, hjust = 1.1, vjust = 1.1)) +
-  guides(colour = guide_legend(override.aes = list(size = 1.5)))
+  guides(colour = guide_legend(override.aes = list(size = 4)))
 p1
 #
 library(Cairo)
