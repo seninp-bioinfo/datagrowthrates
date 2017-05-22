@@ -158,12 +158,16 @@ str(dd)
 #
 dm <-melt(dd, id.vars=c("Date"))
 #
-names(dm) <- c("Date", "Dataset", "BasePairs")
-p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs, color = Dataset, shape = Dataset)) +
-  geom_point(size = 0.8) + theme_light(base_size = 17) +
+names(dm) <- c("Date", "Database", "BasePairs")
+dm <- dm[complete.cases(dm), ]
+p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs, color = Database, shape = Database)) +
+  geom_point(size = 2) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "3 year", date_labels =  "%Y") +
   scale_y_log10("Millions basepair, log10 scale", labels = comma) +
-  ggtitle("Datasets growth rate, basepairs, cumulative")
+  ggtitle("Datasets growth rate, basepairs, cumulative") +
+  theme(text=element_text(family="Comic Sans MS"), legend.key.size = unit(1, "cm"),
+        axis.text.x = element_text(angle = 50, hjust = 1.1, vjust = 1.1)) +
+  guides(colour = guide_legend(override.aes = list(size = 1.5)))
 p1
 #
 library(Cairo)

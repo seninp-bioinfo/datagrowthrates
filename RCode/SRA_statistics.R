@@ -73,18 +73,20 @@ dm$Metagenomic <- dm$Metagenomic / 1000000
 dm$Total <- cumsum(dm$Total)
 dm$Metagenomic <- cumsum(dm$Metagenomic)
 dm <- melt(dm, id.vars = c("Date"))
-names(dm) <- c("Date", "Dataset", "BasePairs")
+names(dm) <- c("Date", "Database", "BasePairs")
 str(dm)
 range(dm$Metagenomic)
 #
 library(ggplot2)
 library(scales)
-p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs, color = Dataset)) +
+p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs, color = Database)) +
   geom_line(size = 0.8) + theme_light(base_size = 17) +
   scale_x_date("Years", date_breaks = "2 year", date_labels =  "%Y") +
   scale_y_continuous("Millions basepair", labels = comma) +
-  ggtitle("SRA data growth rate, basepairs, cumulative")
-
+  ggtitle("SRA data growth rate, basepairs, cumulative") +
+  theme(text=element_text(family="Comic Sans MS"), legend.key.size = unit(1, "cm"),
+        axis.text.x = element_text(angle = 50, hjust = 1.1, vjust = 1.1)) +
+  guides(colour = guide_legend(override.aes = list(size = 2)))
 p1
 #
 library(Cairo)
