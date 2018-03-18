@@ -126,7 +126,9 @@ dat <- (refseq_wgs_data %>% html_nodes("table") %>% html_table(fill = TRUE))[[1]
 names(dat) <- dat[1,] # first are GenBank, next is WGS
 dat <- dat[-1,]
 #
-dat$Date <- as.Date(paste0(dat$Date, " 1"), "%b %Y %d")
+Sys.setlocale("LC_ALL","English")
+library(anytime)
+dat$Date <- anydate(paste0("01-", gsub(" ", "-", dat$Date)))
 dat[,3] <- as.numeric(dat[,3])
 dat[,4] <- as.numeric(dat[,4])
 dat[,5] <- as.numeric(dat[,5])
@@ -141,7 +143,7 @@ library(stringr)
 library(bit64)
 library(data.table)
 #
-data_uri <- "/Users/psenin/git/datagrowthrates/RCode/rates/"
+data_uri <- "/home/psenin/git/datagrowthrates/RCode/rates/"
 #
 flist <- list.files(data_uri)
 total_stats <- grepl("total", flist)
@@ -149,7 +151,7 @@ total_stats <- flist[which(total_stats)]
 #
 #
 dd <- as.data.frame(fread(paste0(data_uri, total_stats[1]), colClasses=c(date="Character",
-                                                                         samples="integer64", reads="integer64", bases="integer64")))[2,]
+                     samples="integer64", reads="integer64", bases="integer64")))[2,]
 dd$date <- as.Date("01-01-01")
 #
 for( stat in total_stats){
@@ -190,7 +192,7 @@ names(refseq)[2:4] <- paste0("RefSeq_", names(refseq)[2:4])
 refseq$RefSeq_Genomic <- refseq$RefSeq_Genomic/1000000
 refseq$RefSeq_RNA <- refseq$RefSeq_RNA/1000000
 refseq$RefSeq_Protein <- refseq$RefSeq_Protein/1000000
-dd <-merge(dd,refseq,by=c("Date"), all = T)
+dd <-merge(dd,refseq,by=c("date"), all = T)
 str(dd)
 #
 dm <-melt(dd, id.vars=c("Date"))
