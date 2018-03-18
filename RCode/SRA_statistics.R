@@ -3,7 +3,7 @@ library(stringr)
 library(bit64)
 library(data.table)
 #
-data_uri <- "/Users/psenin/git/datagrowthrates/RCode/rates/"
+data_uri <- "/home/psenin/git/datagrowthrates/RCode/rates/"
 #
 flist <- list.files(data_uri)
 total_stats <- grepl("total", flist)
@@ -131,3 +131,16 @@ p1 <- ggplot(data = dm, aes(x = Date, y = BasePairs, color = Dataset)) +
   scale_y_log10("Millions basepair", labels = comma) +
   ggtitle("SRA data growth rate, Mbp, cumulative")
 p1
+#
+Cairo::CairoPDF(file = "SRA_growth_cumulative", width = 9,
+                height = 6,
+                onefile = TRUE, family = "Helvetica",
+                title = "R Graphics Output", version = "1.1",
+                paper = "special", bg = "white", pointsize = 10)
+print(p1)
+dev.off()
+Cairo::CairoPNG(file = "SRA_growth_cumulative.png", width = 900,
+                height = 600,
+                bg = "white", pointsize = 8)
+print(p1)
+dev.off()

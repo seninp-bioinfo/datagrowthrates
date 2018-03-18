@@ -3,7 +3,7 @@ library(RCurl)
 library(XML)
 library(plyr)
 library(dplyr)
-library(SRAdb)
+#library(SRAdb)
 #sqlfile <- "/Users/psenin/git/SRAmetadb.sqlite"
 #sra_con <- dbConnect(dbDriver("SQLite"), sqlfile)
 
@@ -54,7 +54,7 @@ parse_date <- function(date, offset, limit) {
               "&result=read_run&display=xml&download=xml&offset=", offset, 
               "&limit=", limit, sep = "")
   
-  res <- xmlParse(URLencode(url))
+  res <- xmlParse(httr::GET(URLencode(url)))
 
   xml_data <- xmlToList(res)
   

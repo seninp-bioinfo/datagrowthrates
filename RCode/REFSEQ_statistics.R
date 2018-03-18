@@ -1,7 +1,7 @@
 library(RCurl)
 library(stringr)
 #
-release_archive_url <- "ftp://ftp.ncbi.nlm.nih.gov/refseq/release/release-statistics/archive/"
+  release_archive_url <- "ftp://ftp.ncbi.nlm.nih.gov/refseq/release/release-statistics/archive/"
 #
 userpwd <- "anonymous:anonymous"
 filenames <- getURL(release_archive_url, userpwd = userpwd,
@@ -105,6 +105,9 @@ for( release in releases){
   dd <- rbind(dd, d_tmp)
     
 }
+#
+str(dd)
+write.table(dd, paste("rates/Refseq_rates_", ".tsv", sep = ""), sep = "\t", col.names = T, row.names = F)
 #
 library(dplyr)
 dd <- dd[complete.cases(dd), ]
